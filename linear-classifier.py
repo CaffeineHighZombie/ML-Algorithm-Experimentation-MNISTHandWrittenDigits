@@ -10,6 +10,7 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn import metrics
 from sklearn.utils import shuffle
 import time
+
 m_data = tf.contrib.learn.datasets.mnist.load_mnist()
 train_set = m_data.train
 train_images = train_set.images
@@ -39,3 +40,20 @@ matrix = metrics.confusion_matrix(val_labels, val_pred)
 print('Confusion Matrix', matrix)
 print("Classification report for Linear classifier %s:\n%s\n"
      % (cls, metrics.classification_report(val_labels, val_pred)))
+
+# Testing Model
+y = list(cls.predict(test_images, as_iterable=True))
+score = metrics.accuracy_score(test_labels, y)
+print ('Test Accuracy', score)
+Error = 100-round(metrics.accuracy_score(test_labels, y)*100,2)
+print('Test Error', Error)
+Recall = metrics.recall_score(test_labels, y, average='weighted')
+print('Test Recall', Recall)
+Precision = metrics.precision_score(test_labels, y, average='weighted')
+print('Test Precision', Precision)
+F1 = metrics.f1_score(test_labels, y, average='weighted')
+print('F1', F1)
+matrix = metrics.confusion_matrix(test_labels, y)
+print('Confusion Matrix', matrix)
+print("Classification report for Linear classifier %s:\n%s\n"
+     % (cls, metrics.classification_report(test_labels, y)))
