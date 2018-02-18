@@ -30,3 +30,20 @@ for i in k:
     print ('Cross validation', scores)
     acc.append(scores.mean())
     print("Accuracy: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
+
+plt.plot(k,acc)
+plt.xlabel('k-value')
+plt.ylabel('Accuracy')
+plt.show()
+
+clf = neighbors.KNeighborsClassifier(n_neighbors=5)
+clf.fit(X_train, y_train)
+expected = y_test
+predicted = clf.predict(X_test)
+print("Classification report for kNN classifier %s:\n%s\n"
+     % (clf, metrics.classification_report(expected, predicted)))
+print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
+
+print("Accuracy is:",round(metrics.accuracy_score(expected,predicted)*100,2))
+print("Test error is:",100-round(metrics.accuracy_score(expected,predicted)*100,2))
+print("Confusion matrix:\n%s" % metrics.confusion_matrix(expected, predicted))
